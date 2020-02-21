@@ -1,0 +1,36 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
+import xlrd, xlwt
+from xlwt import Workbook
+from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtCore import pyqtSignal, QObject, QRunnable, pyqtSlot, QThreadPool
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import re
+import uuid
+import urllib.parse
+import time
+
+class WorkerSignals(QObject):
+    '''
+    Defines the signals available from a running worker thread.
+
+    Supported signals are:
+
+    finished
+        No data
+
+    error
+        `tuple` (exctype, value, traceback.format_exc() )
+
+    result
+        `object` data returned from processing, anything
+
+    progress
+        `int` indicating % progress
+
+    '''
+    finished = pyqtSignal()
+    error = pyqtSignal(tuple)
+    result = pyqtSignal(object)
+    # progress = pyqtSignal(int)
+    progress = pyqtSignal(object)
